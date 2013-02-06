@@ -92,7 +92,7 @@ eventBus.publish("my.event", { op: 'square', value: 3 }, function (response) {
 ## Testing
 
 A Sinatra test application is provided in the repository. Unit testing is done with [QUnit]
-(http://www.qunitjs.com). You can see a sample usage by browsing to `/sample`.
+(http://qunitjs.com). You can see a sample usage by browsing to `/sample`.
 
 ```
 $ git clone git@github.com:jarrettmeyer/jsbus.git
