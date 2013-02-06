@@ -84,12 +84,18 @@
     }
 	};
 
+  /*
+    Subscriber object. A holder for an event type and a callback.
+   */
   var Subscriber = function(eventType, callback) {
     var self = this;
     self.eventType = eventType;
     self.callback = callback;
   };
 
+  /*
+    Event object.
+   */
   var Event = function(eventType, data) {
     var self = this;
     self.eventCounter = nextEventCounter();
@@ -97,7 +103,7 @@
     self.data = data || {};
 
     self.push = function(subscriber, callback) {
-      subscriber.callback(self.data);
+      subscriber.callback(self);
       if (callback && isFunction(callback)) {
         callback();
       }
@@ -114,7 +120,7 @@
   };
 
   // Do not define an eventBus is one has already been created.
-	if (window.eventBus) {
+	if (window && window.eventBus) {
 		return;
 	}
 	window.eventBus = new EventBus();

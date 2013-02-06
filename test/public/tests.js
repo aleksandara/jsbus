@@ -74,9 +74,9 @@ module("publishing an event with a single subscriber", {
     eventBus.debug = true;
     window.hit = false;
     window.hitWithData = false;
-    eventBus.subscribe("my.event", function(data){
+    eventBus.subscribe("my.event", function(event){
       window.hit = true;
-      if (data && data.x) {
+      if (event && event.data) {
         window.hitWithData = true;
       }
     });
@@ -113,6 +113,24 @@ test("Can publish an event with data and callback", function() {
   });
   ok(window.hitWithData);
   ok(hitCallback);
+});
+
+test("Event data property is persisted as expected", function() {
+  var dataValue = 3;
+  eventBus.subscribe("my.event", function(event) {
+    dataValue = event.data.value;
+  });
+  eventBus.publish("my.event", { value: 5 });
+  equal(5, dataValue);
+});
+
+test("Event can persist the event type", function() {
+  var eventType = '';
+  eventBus.subscribe(["my.event-one", "my.event-two"], function(event) {
+    eventType = event.eventType;
+  });
+  eventBus.publish("my.event-two");
+  equal("my.event-two", eventType);
 });
 
 //
