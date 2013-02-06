@@ -18,7 +18,8 @@ In application.js, Add the following line.
 
 **Subscribing to events**
 
-Subscribing to events is a simple callback pattern.
+Subscribing to events is a simple callback pattern. Simply give the event type and what to do
+when the event is published.
 
 ```javascript
 eventBus.subscribe("my.event", function() {
@@ -26,7 +27,7 @@ eventBus.subscribe("my.event", function() {
 });
 ```
 
-You can even subscribe the same callback to multiple events simultaneously.
+You can subscribe the same callback to multiple events simultaneously.
 
 ```javascript
 eventBus.subscribe(["my.event-one", "my.event-two"], function(event) {
@@ -54,7 +55,6 @@ You can send data with a publish. You can get to the data by receiving the event
 eventBus.subscribe("my.event", function(event) {
   alert("x: " + event.data.x);
 });
-
 eventBus.publish("my.event", { x: 1, y: 3, z: [2, 4, 6] });
 ```
 
@@ -67,7 +67,7 @@ eventBus.publish("my.event", function() {
 ```
 
 You can even do basic request/response style programming with JsBus. To do this,
-you subscriber should have a `return` statement.
+your subscriber should have a `return` statement.
 
 ```javascript
 eventBus.subscribe("my.event", function (event) {
@@ -85,7 +85,7 @@ eventBus.subscribe("my.event", function (event) {
   return value * value;
 });
 eventBus.publish("my.event", { op: 'square', value: 3 }, function (response) {
-  alert("response is: " + response);
+  alert("response is: " + response); // response is: 9
 });
 ```
 
@@ -95,5 +95,7 @@ A Sinatra test application is provided in the repository. Unit testing is done w
 (http://www.qunitjs.com). You can see a sample usage by browsing to `/sample`.
 
 ```
+$ git clone git@github.com:jarrettmeyer/jsbus.git
+$ bundle install
 $ rake test
 ```
