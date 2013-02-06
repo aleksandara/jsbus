@@ -249,3 +249,48 @@ test("Can hit both subscribers with a single published", function() {
   equal(true, window.hitTwo);
 });
 
+module("Testing Unsubscribe Feature", {
+  setup: function () {
+    eventBus.reset();
+    eventBus.subscribe("event.one", function() { });
+    eventBus.subscribe("event.two", function() { });
+    eventBus.subscribe("event.three", function() { });
+  }
+});
+
+test("has 3 subscribers by default", function () {
+  var count = eventBus.subscribers.length;
+  equal(3, count);
+});
+
+test("can unsubscribe an event", function () {
+  eventBus.unsubscribe("event.two");
+  ok(true, "No errors were thrown");
+});
+
+test("has expected number of subscribers after unsubscribing", function () {
+  eventBus.unsubscribe("event.two");
+  var count = eventBus.subscribers.length;
+  equal(2, count);
+});
+
+test("can unsubscribe from multiple events", function() {
+  eventBus.unsubscribe(["event.one", "event.two"]);
+  var count = eventBus.subscribers.length;
+  equal(1, count);
+});
+
+test("no subscribers of unsubscribed event", function () {
+  eventBus.unsubscribe("event.two");
+  var found = false;
+  for (var i = eventBus.subscribers.length - 1; i >= 0; i--) {
+    var subscriber = eventBus.subscribers[i];
+    if (subscriber.eventType === "event.two") {
+      found = true;
+    }
+  }
+  equal(false, found);
+});
+
+
+

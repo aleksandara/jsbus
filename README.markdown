@@ -89,6 +89,15 @@ eventBus.publish("my.event", { op: 'square', value: 3 }, function (response) {
 });
 ```
 
+**Unsubscribing**
+
+You can unsubscribe from one or more events, too.
+
+```javascript
+eventBus.unsubscribe('my.event');
+eventBus.unsubscribe(['my.event.one', 'my.event.two']);
+```
+
 ## Testing
 
 A Sinatra test application is provided in the repository. Unit testing is done with [QUnit]

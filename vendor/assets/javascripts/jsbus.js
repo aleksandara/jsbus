@@ -48,6 +48,21 @@
       subscribeToEventTypes(eventTypes, callback);
 		};
 
+    self.unsubscribe = function(eventType) {
+      var eventTypes = [].concat(eventType), i, j, tmpSubscribers, subscriber;
+      for (i = eventTypes.length - 1; i >= 0; i--) {
+        eventType = eventTypes[i];
+        tmpSubscribers = [];
+        for (j = self.subscribers.length - 1; j >= 0; j--) {
+          subscriber = self.subscribers[j];
+          if (subscriber.eventType !== eventType) {
+            tmpSubscribers.push(subscriber);
+          }
+        }
+        self.subscribers = tmpSubscribers;
+      }
+    };
+
     function createAndPublishEvent(eventTypes, data, callback) {
       var i, eventType, event;
       for (i = eventTypes.length - 1; i >= 0; i--) {
