@@ -1,4 +1,5 @@
-multitask :default => ['test:server', 'test:open']
+multitask :test => ['test:server', 'test:open']
+task :default => :test
 
 PORT = 4567
 

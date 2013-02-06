@@ -71,6 +71,7 @@ test("Can publish an event, but with data and callback", function() {
 //
 module("publishing an event with a single subscriber", {
   setup: function() {
+    eventBus.reset();
     window.hit = false;
     window.hitWithData = false;
     eventBus.subscribe("my.event", function(event){
@@ -141,6 +142,51 @@ test("Event can persist data through subscriber and callback", function() {
     value += 3;
   });
   equal(6, value, "1 + 2 + 3 should be 6");
+});
+
+test("Publish callback can receive a response", function () {
+  var x = 0;
+  eventBus.subscribe("my.pub-sub", function(event) {
+    return event.data.value + 3;
+  });
+  eventBus.publish("my.pub-sub", { value: 2 }, function (response){
+    x = response + 4;
+  });
+  equal(9, x, "2 + 3 + 4");
+});
+
+test("Publish callback can receive a response (README example)", function () {
+  expect(4);
+  var w = 0, x = 0, y = 0, z = 0;
+  eventBus.subscribe("my.pub-sub", function(event) {
+    var value = event.data.value;
+    switch (event.data.op) {
+      case 'increment':
+        return value + 1;
+      case 'decrement':
+        return value - 1;
+      case 'square':
+        return value * value;
+      default:
+        return value;
+    }
+  });
+  eventBus.publish("my.pub-sub", { op: 'increment', value: 2 }, function (response) {
+    w = response;
+  });
+  equal(3, w);
+  eventBus.publish("my.pub-sub", { op: 'decrement', value: 4 }, function (response) {
+    x = response;
+  });
+  equal(3, x);
+  eventBus.publish("my.pub-sub", { op: 'square', value: 6 }, function (response) {
+    y = response;
+  });
+  equal(36, y);
+  eventBus.publish("my.pub-sub", { op: 'unknown', value: 8 }, function (response) {
+    z = response;
+  });
+  equal(8, z);
 });
 
 //

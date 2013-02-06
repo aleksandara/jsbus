@@ -1,3 +1,19 @@
+## Installing
+
+There are two ways to use this file. First, you can copy the `jsbus.js` file directly [here's a
+link](https://github.com/jarrettmeyer/jsbus/blob/master/vendor/assets/javascripts/jsbus.js) into
+your project. Second, you can install the gem. JsBus works with the Rails asset pipeline.
+
+```
+$ gem install jsbus
+```
+
+In application.js, Add the following line.
+
+```
+//= require jsbus
+```
+
 ## Usage
 
 **Subscribing to events**
@@ -48,4 +64,36 @@ Publishing an event can also have a callback.
 eventBus.publish("my.event", function() {
   alert("I'm back!");
 });
+```
+
+You can even do basic request/response style programming with JsBus. To do this,
+you subscriber should have a `return` statement.
+
+```javascript
+eventBus.subscribe("my.event", function (event) {
+  var value = event.data.value;
+  switch (event.data.op) {
+    case 'increment':
+      return value + 1;
+    case 'decrement':
+      return value - 1;
+    case 'square':
+      return value * value;
+    default:
+      return value;
+  }
+  return value * value;
+});
+eventBus.publish("my.event", { op: 'square', value: 3 }, function (response) {
+  alert("response is: " + response);
+});
+```
+
+## Testing
+
+A Sinatra test application is provided in the repository. Unit testing is done with [QUnit]
+(http://www.qunitjs.com). You can see a sample usage by browsing to `/sample`.
+
+```
+$ rake test
 ```

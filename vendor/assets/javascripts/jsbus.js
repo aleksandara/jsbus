@@ -1,50 +1,50 @@
-(function(window) {
+(function (window) {
   "use strict";
-
-  var eventCounter = 0;
 
   function isFunction(obj) {
     return !!(obj && obj.constructor && obj.call && obj.apply);
   }
 
-	var EventBus = function() {
+  function log(message) {
+    if (window && window.eventBus && window.eventBus.debug && window.console && window.console.log) {
+      window.console.log(message);
+    }
+  }
+
+  var EventBus = function () {
     var self = this;
 
     // If true, logging to console is enabled.
     self.debug = false;
 
-		self.subscribers = [];
+    // Array of subscribers.
+    self.subscribers = [];
 
-    /*
-      Publish an event to the event bus.
-
-        eventType: string or string array
-        data: data associated with the event
-        callback: fired at the completion of the event
-     */
-    self.publish = function(eventType, data, callback) {
-      var eventTypes;
+    // Publish an event to the event bus.
+    //   eventType: string or string array
+    //   data: data associated with the event
+    //   callback: fired at the completion of the event
+    self.publish = function (eventType, data, callback) {
+      var eventTypes = [].concat(eventType);
       if (isFunction(data)) {
         log("Given callback but no data. Assigning data to callback.");
         callback = data;
         data = {};
       }
-
-      eventTypes = [].concat(eventType);
       createAndPublishEvent(eventTypes, data, callback);
     };
 
     // Reset the event bus by removing all subscribers. This is useful
     // (and necessary) in testing scenarios.
     self.reset = function() {
-      eventCounter = 0;
+      self.debug = false;
       self.subscribers = [];
     };
 
-    // Subscribe to one or more events.
+    // Subscribe to one or more events. If eventType is an array, the given callback
+    // will be bound to multiple events.
 		self.subscribe = function(eventType, callback) {
-      var eventTypes;
-      eventTypes = [].concat(eventType);
+      var eventTypes = [].concat(eventType);
       subscribeToEventTypes(eventTypes, callback);
 		};
 
@@ -55,12 +55,6 @@
         event = new Event(eventType, data);
         log("Publishing event: " + event.toString());
         pushEventToSubscribers(event, eventType, callback);
-      }
-    }
-
-    function log(message) {
-      if (self.debug && window.console && window.console.log) {
-        window.console.log(message);
       }
     }
 
@@ -82,41 +76,35 @@
         self.subscribers.push(subscriber);
       }
     }
-	};
+	}; // Closes EventBus definition
 
-  /*
-    Subscriber object. A holder for an event type and a callback.
-   */
+  // Subscriber object. A holder for an event type and a callback.
   var Subscriber = function(eventType, callback) {
     var self = this;
     self.eventType = eventType;
     self.callback = callback;
   };
 
-  /*
-    Event object.
-   */
+  // Event object.
   var Event = function(eventType, data) {
     var self = this;
-    self.eventCounter = nextEventCounter();
     self.eventType = eventType;
     self.data = data || {};
 
+    // Push the event to the given subscriber.
     self.push = function(subscriber, callback) {
-      subscriber.callback(self);
+      // Invoke the subscriber's callback function. Save the response, if any.
+      var response = subscriber.callback(self) || { };
+
+      // If the publisher has a callback, invoke, passing the subscriber's response.
       if (callback && isFunction(callback)) {
-        callback();
+        callback(response);
       }
     };
 
     self.toString = function() {
-      return "Event " + self.eventCounter + ", Type: " + self.eventType;
+      return "Event Type: " + self.eventType;
     };
-
-    function nextEventCounter() {
-      eventCounter += 1;
-      return eventCounter;
-    }
   };
 
   // Do not define an eventBus is one has already been created.
@@ -124,4 +112,4 @@
 		return;
 	}
 	window.eventBus = new EventBus();
-})(window);
+}(window));
