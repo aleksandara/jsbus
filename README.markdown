@@ -23,7 +23,7 @@ Subscribing to events is a simple callback pattern.
 ```javascript
 eventBus.subscribe("my.event", function() {
   alert("my.event was raised!");
-}
+});
 ```
 
 You can even subscribe the same callback to multiple events simultaneously.
