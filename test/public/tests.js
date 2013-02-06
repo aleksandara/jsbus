@@ -71,7 +71,6 @@ test("Can publish an event, but with data and callback", function() {
 //
 module("publishing an event with a single subscriber", {
   setup: function() {
-    eventBus.debug = true;
     window.hit = false;
     window.hitWithData = false;
     eventBus.subscribe("my.event", function(event){

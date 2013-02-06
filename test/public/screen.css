@@ -1,0 +1,22 @@
+body {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5em;
+  margin: 0;
+  padding: 10px;
+}
+
+.box-me {
+  float: left;
+  width: 40%;
+  margin-left: 5%;
+  padding: 1em;
+  border: 1px solid #ddd;
+  background: #eee;
+}
+
+.timestamp {
+  color: #7cc4ff;
+  font-weight: bold;
+  margin-right: 1em;
+}

@@ -1,0 +1,34 @@
+<div id="section-1" class="box-me">
+  <p>
+    This is the first section. Click anywhere in here.
+  </p>
+</div>
+
+<div id="section-2" class="box-me">
+  <p>
+    This is the second section. Click anywhere in here.
+  </p>
+</div>
+
+<%= script_tag "/vendor/assets/javascripts/jsbus.js" %>
+<script type="text/javascript">
+  function appendToSection(selector, message) {
+    var time = (new Date()).toString(),
+        content = "<p class=\"appended-content\"><span class=\"timestamp\">" + time + "</span>" + message + "</p>";
+    $(selector).append(content);
+  }
+
+  eventBus.subscribe("me.click-section-1", function() {
+    appendToSection("#section-2", "You clicked in the first section!")
+  });
+  eventBus.subscribe("me.click-section-2", function() {
+    appendToSection("#section-1", "You clicked in the second section!")
+  });
+
+  $(".box-me").click(function() {
+    var id = $(this).attr("id"),
+        event = "me.click-" + id;
+    eventBus.publish(event);
+  });
+
+</script>
