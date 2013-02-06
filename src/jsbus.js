@@ -3,34 +3,49 @@
 
   var eventCounter = 0;
 
-	var EventBus = function(settings) {
+  function isFunction(obj) {
+    return !!(obj && obj.constructor && obj.call && obj.apply);
+  }
+
+	var EventBus = function() {
     var self = this;
-    self.debug = (settings && settings.debug) || false;
+
+    // If true, logging to console is enabled.
+    self.debug = false;
+
 		self.subscribers = [];
 
-    // This is the same method used by underscore.js
-    self.isFunction = function(obj) {
-      return !!(obj && obj.constructor && obj.call && obj.apply);
-    };
+    /*
+      Publish an event to the event bus.
 
+        eventType: string or string array
+        data: data associated with the event
+        callback: fired at the completion of the event
+     */
     self.publish = function(eventType, data, callback) {
       var eventTypes;
-      if (self.isFunction(data)) {
+      if (isFunction(data)) {
         log("Given callback but no data. Assigning data to callback.");
         callback = data;
         data = {};
       }
+
       eventTypes = [].concat(eventType);
       createAndPublishEvent(eventTypes, data, callback);
     };
 
+    // Reset the event bus by removing all subscribers. This is useful
+    // (and necessary) in testing scenarios.
     self.reset = function() {
+      eventCounter = 0;
       self.subscribers = [];
     };
 
+    // Subscribe to one or more events.
 		self.subscribe = function(eventType, callback) {
-      var subscriber = new Subscriber(eventType, callback);
-      self.subscribers.push(subscriber);
+      var eventTypes;
+      eventTypes = [].concat(eventType);
+      subscribeToEventTypes(eventTypes, callback);
 		};
 
     function createAndPublishEvent(eventTypes, data, callback) {
@@ -58,6 +73,15 @@
         }
       }
     }
+
+    function subscribeToEventTypes(eventTypes, callback) {
+      var i, eventType, subscriber;
+      for (i = eventTypes.length - 1; i >= 0; i--) {
+        eventType = eventTypes[i];
+        subscriber = new Subscriber(eventType, callback);
+        self.subscribers.push(subscriber);
+      }
+    }
 	};
 
   var Subscriber = function(eventType, callback) {
@@ -74,7 +98,7 @@
 
     self.push = function(subscriber, callback) {
       subscriber.callback(self.data);
-      if (callback && eventBus.isFunction(callback)) {
+      if (callback && isFunction(callback)) {
         callback();
       }
     };
@@ -89,7 +113,7 @@
     }
   };
 
-    // Do not define an eventBus is one has already been created.
+  // Do not define an eventBus is one has already been created.
 	if (window.eventBus) {
 		return;
 	}
