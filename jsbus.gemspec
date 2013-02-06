@@ -10,5 +10,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency  "railties", ">= 3.0"
 
-  s.require_path    = "lib"
+  s.files           = Dir["{lib,vendor}/**/*"]
+  s.require_paths   = ["lib"]
 end
