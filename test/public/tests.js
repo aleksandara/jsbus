@@ -133,6 +133,17 @@ test("Event can persist the event type", function() {
   equal("my.event-two", eventType);
 });
 
+test("Event can persist data through subscriber and callback", function() {
+  var value = 1;
+  eventBus.subscribe("my.addition", function(event) {
+    value += event.data.value;
+  });
+  eventBus.publish("my.addition", { value: 2 }, function() {
+    value += 3;
+  });
+  equal(6, value, "1 + 2 + 3 should be 6");
+});
+
 //
 // Module
 //
