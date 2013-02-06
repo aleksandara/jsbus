@@ -16,7 +16,7 @@ In application.js, Add the following line.
 
 ## Usage
 
-**Subscribing to events**
+### Subscribing to events
 
 Subscribing to events is a simple callback pattern. Simply give the event type and what to do
 when the event is published.
@@ -35,7 +35,7 @@ eventBus.subscribe(["my.event-one", "my.event-two"], function(event) {
 });
 ```
 
-**Publishing an event**
+### Publishing an event
 
 You can publish one event by calling `publish()`.
 
@@ -89,7 +89,7 @@ eventBus.publish("my.event", { op: 'square', value: 3 }, function (response) {
 });
 ```
 
-**Unsubscribing**
+### Unsubscribing
 
 You can unsubscribe from one or more events, too.
 
