@@ -1,5 +1,6 @@
-multitask :test => ['test:server', 'test:open']
+multitask :test => [:compile, 'test:server', 'test:open']
 task :default => :test
+task :build => [:compile, :build_gem]
 
 PORT = 4567
 
@@ -17,6 +18,19 @@ namespace :test do
 	end
 	
 end
+
+task :compile do
+  # Copy the coffee file so it is available to the test program
+  system "cp ./src/jsbus.coffee ./test/views/jsbus.coffee"
+
+  # Compile the coffee file, putting in the appropriate vendor folder
+  system "coffee -c -o ./vendor/assets/javascripts/ ./src/jsbus.coffee"
+end
+
+task :build_gem do
+  system "gem build jsbus.gemspec"
+end
+
 
 # Returns an array e.g.: ['open', 'http://example.com']
 def browse_cmd(url)

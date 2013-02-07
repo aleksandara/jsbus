@@ -3,7 +3,7 @@ test("Hello test", function() {
 });
 
 //
-// Module
+// Module: Basic event bus functions
 //
 module("eventBus", {
   setup: function() {
@@ -37,8 +37,26 @@ test("Subscribing to an event should add a subscriber to the array", function() 
   equal(1, numSubscribers);
 });
 
+test("subscribing should publish a subscription notification", function () {
+  var subscribed = false;
+  eventBus.subscribe("EventBus.subscribed", function (){
+    subscribed = true;
+  });
+  ok(subscribed);
+});
+
+test("unsubscribing should publish an unsubscription notification", function () {
+  var unsubscribed = false;
+  eventBus.subscribe("EventBus.unsubscribed", function (){
+    unsubscribed = true;
+  });
+  eventBus.subscribe("some-event", function() { });
+  eventBus.unsubscribe("some-event");
+  ok(unsubscribed);
+});
+
 //
-// Module
+// Module: Basic publishing
 //
 module("publishing an event without subscribers", {
   setup: function() {
@@ -67,7 +85,7 @@ test("Can publish an event, but with data and callback", function() {
 });
 
 //
-// Module
+// Module: Single Subscriber
 //
 module("publishing an event with a single subscriber", {
   setup: function() {
