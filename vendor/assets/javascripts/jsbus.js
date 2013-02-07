@@ -68,7 +68,7 @@
       this.eventType = eventType;
       this.data = data != null ? data : {};
       this.callback = callback;
-      this.timestamp = (new Date()).toString();
+      this.timestamp = Date.now().toString();
     }
 
     Event.prototype.push = function(subscriber) {

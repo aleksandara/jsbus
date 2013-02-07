@@ -56,7 +56,7 @@ class Event
     this.eventType = eventType
     this.data = data ? { }
     this.callback = callback
-    this.timestamp = (new Date()).toString()
+    this.timestamp = Date.now().toString()
 
   # Push the event to the given subscriber.
   push: (subscriber) ->

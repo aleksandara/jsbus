@@ -332,6 +332,7 @@ test("event has expected value for event bus", function () {
 });
 test("event has a timestamp", function () {
   var event = eventBus.createEvent("test:event");
+  console.log(event.timestamp);
   ok(event.timestamp, "event should have a timestamp");
 });
 
