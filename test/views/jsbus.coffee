@@ -8,6 +8,10 @@ class EventBus
   constructor: () ->
     this.subscribers = []
 
+  # Create a new event
+  createEvent: (eventType, data, callback) ->
+    new Event(this, eventType, data, callback);
+
   # Publish a new event
   #   eventType: a single event or array of events
   #   data: data related to the event
@@ -47,10 +51,12 @@ class EventBus
 
 #
 class Event
-  constructor: (eventType, data, callback) ->
+  constructor: (eventBus, eventType, data, callback) ->
+    this.eventBus = eventBus
     this.eventType = eventType
     this.data = data ? { }
     this.callback = callback
+    this.timestamp = (new Date()).toString()
 
   # Push the event to the given subscriber.
   push: (subscriber) ->
@@ -69,7 +75,7 @@ class Subscriber
 #
 createAndPublishEvent = (eventBus, eventTypes, eventData, callback) ->
   for eventType in eventTypes
-    event = new Event(eventType, eventData, callback)
+    event = eventBus.createEvent(eventType, eventData, callback)
     pushEventToSubscribers(eventBus, event)
 
 # This is the same method UnderscoreJS uses for functional definition.

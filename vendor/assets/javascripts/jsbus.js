@@ -10,6 +10,10 @@
       this.subscribers = [];
     }
 
+    EventBus.prototype.createEvent = function(eventType, data, callback) {
+      return new Event(this, eventType, data, callback);
+    };
+
     EventBus.prototype.publish = function(eventType, data, callback) {
       var eventTypes;
       eventTypes = [].concat(eventType);
@@ -59,10 +63,12 @@
 
   Event = (function() {
 
-    function Event(eventType, data, callback) {
+    function Event(eventBus, eventType, data, callback) {
+      this.eventBus = eventBus;
       this.eventType = eventType;
       this.data = data != null ? data : {};
       this.callback = callback;
+      this.timestamp = (new Date()).toString();
     }
 
     Event.prototype.push = function(subscriber) {
@@ -93,7 +99,7 @@
     _results = [];
     for (_i = 0, _len = eventTypes.length; _i < _len; _i++) {
       eventType = eventTypes[_i];
-      event = new Event(eventType, eventData, callback);
+      event = eventBus.createEvent(eventType, eventData, callback);
       _results.push(pushEventToSubscribers(eventBus, event));
     }
     return _results;

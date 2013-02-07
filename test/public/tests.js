@@ -310,5 +310,29 @@ test("no subscribers of unsubscribed event", function () {
   equal(false, found);
 });
 
+//
+// Module event testing
+//
+module("testing events", {
+  setup: function () {
+    eventBus.reset();
+  }
+});
+test("can create a new event", function () {
+  var event = eventBus.createEvent("test:event")
+  ok(true, "should get this far without raising an error");
+});
+test("event has expected event type", function () {
+  var event = eventBus.createEvent("test:event");
+  equal("test:event", event.eventType);
+});
+test("event has expected value for event bus", function () {
+  var event = eventBus.createEvent("test:event");
+  deepEqual(eventBus, event.eventBus);
+});
+test("event has a timestamp", function () {
+  var event = eventBus.createEvent("test:event");
+  ok(event.timestamp, "event should have a timestamp");
+});
 
 
