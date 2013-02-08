@@ -137,5 +137,5 @@ $ rake test
 
 **Jarrett Meyer**
 
-+ [http://twitter.com/jarrettmeyer](@jarrettmeyer)
-+ [http://jarrettmeyer.com](jarrettmeyer.com)
++ [@jarrettmeyer](http://twitter.com/jarrettmeyer)
++ [jarrettmeyer.com](http://jarrettmeyer.com)
