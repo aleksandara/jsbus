@@ -81,7 +81,7 @@ eventBus.publish("my.event", function() {
   alert("I'm back!");
 });
 ```
-In the example below, if `my.event` has three subscribers, you can expect three alert popups.
+In the example above, if `my.event` has three subscribers, you can expect three alert popups.
 
 You can even do basic request/response style programming with JsBus. To do this, your subscriber should have a `return` statement. Whatever is returned from the subscriber will be passed into the publisher's callback.
 
