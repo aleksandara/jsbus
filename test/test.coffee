@@ -9,6 +9,13 @@ exports.addingASubscriberAddsToTheArray = (test) ->
   test.equal(1, count)
   test.done()
 
+exports.canPublishAnEventWithCallbackButNoData = (test) ->
+  test.expect(1)
+  eventBus.reset()
+  eventBus.publish("my.event", -> )
+  test.ok(true)
+  test.done()
+
 exports.canPublishAnEventWithData = (test) ->
   test.expect(1)
   eventBus.reset()
