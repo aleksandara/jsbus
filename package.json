@@ -1,0 +1,12 @@
+{
+  "author": "Jarrett Meyer <jarrettmeyer@gmail.com>",
+  "name": "jsbus",
+  "version": "0.1.3",
+  "scripts": {
+    "test": "nodeunit ./test/test.coffee"
+  },
+  "devDependencies": {
+    "nodeunit": "0.7.x"
+  }
+}
+

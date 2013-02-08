@@ -5,11 +5,10 @@
   root = typeof exports !== "undefined" && exports !== null ? exports : this;
 
   EventBus = (function() {
-    var subscribers;
 
-    function EventBus() {}
-
-    subscribers = {};
+    function EventBus() {
+      this.subscribers = {};
+    }
 
     EventBus.prototype.createEvent = function(eventType, data, callback) {
       return new Event(eventType, data, callback);

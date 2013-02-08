@@ -3,7 +3,9 @@ root = exports ? this
 
 # Container object for the event bus.
 class EventBus
-  subscribers = { }
+  constructor: ->
+    # Initialize an empty collection of subscribers.
+    this.subscribers = { }
 
   # Create a new event
   createEvent: (eventType, data, callback) ->

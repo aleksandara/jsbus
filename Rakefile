@@ -7,7 +7,7 @@ PORT = 4567
 namespace :test do
 
 	task :server do
-		system "bundle exec ruby test/server.rb"
+		system "bundle exec ruby sample/server.rb"
 	end
 
 	task :open do
@@ -21,7 +21,7 @@ end
 
 task :compile do
   # Copy the coffee file so it is available to the test program
-  system "cp ./src/jsbus.coffee ./test/views/jsbus.coffee"
+  system "cp ./src/jsbus.coffee ./sample/views/jsbus.coffee"
 
   # Compile the coffee file, putting in the appropriate vendor folder
   system "coffee -c -o ./vendor/assets/javascripts/ ./src/jsbus.coffee"
