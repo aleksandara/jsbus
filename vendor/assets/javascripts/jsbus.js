@@ -5,10 +5,11 @@
   root = typeof exports !== "undefined" && exports !== null ? exports : this;
 
   EventBus = (function() {
+    var subscribers;
 
-    function EventBus() {
-      this.subscribers = {};
-    }
+    function EventBus() {}
+
+    subscribers = {};
 
     EventBus.prototype.createEvent = function(eventType, data, callback) {
       return new Event(eventType, data, callback);
@@ -115,12 +116,14 @@
   };
 
   subscribeToEventType = function(eventBus, eventTypes, callback) {
-    var eventType, subscriber, _i, _len, _ref, _results;
+    var eventType, subscriber, _base, _i, _len, _ref, _results;
     _results = [];
     for (_i = 0, _len = eventTypes.length; _i < _len; _i++) {
       eventType = eventTypes[_i];
       subscriber = new Subscriber(eventType, callback);
-      eventBus.subscribers[eventType] = (_ref = eventBus.subscribers[eventType]) != null ? _ref : [];
+      if ((_ref = (_base = eventBus.subscribers)[eventType]) == null) {
+        _base[eventType] = [];
+      }
       eventBus.subscribers[eventType].push(subscriber);
       _results.push(eventBus.publish("EventBus.subscribed", {
         subscriber: subscriber

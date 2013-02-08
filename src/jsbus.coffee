@@ -1,12 +1,9 @@
 # Give CoffeeScript some love. This lets CS get to the root (a.k.a. window) object.
 root = exports ? this
 
-#
+# Container object for the event bus.
 class EventBus
-
-  # Initialize a new event bus with an empty collection of subscribers.
-  constructor: () ->
-    this.subscribers = { }
+  subscribers = { }
 
   # Create a new event
   createEvent: (eventType, data, callback) ->
@@ -88,7 +85,7 @@ pushEventToSubscribers = (eventBus, event) ->
 subscribeToEventType = (eventBus, eventTypes, callback) ->
   for eventType in eventTypes
     subscriber = new Subscriber(eventType, callback)
-    eventBus.subscribers[eventType] = eventBus.subscribers[eventType] ? []
+    eventBus.subscribers[eventType] ?= []
     eventBus.subscribers[eventType].push(subscriber)
     eventBus.publish("EventBus.subscribed", { subscriber: subscriber })
 
