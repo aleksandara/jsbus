@@ -1,14 +1,30 @@
+## Why Write a JavaScript Message Broker?
+
+Because.
+
+I have a project where jQuery's observer pattern wasn't going to work for me. I needed something where publishers and subscribers could be completely independent, and possibly not even loaded on the page at the same time.
+
 ## Installing
 
-There are two ways to use this file. First, you can copy the `jsbus.js` file directly - [here's a
-link](https://github.com/jarrettmeyer/jsbus/blob/master/vendor/assets/javascripts/jsbus.js) - into
-your project. Second, you can install the gem. JsBus works with the Rails asset pipeline.
+### Copy/Paste
+
+The easiest way to use JsBus is to simply copy [jsbus.js](https://github.com/jarrettmeyer/jsbus/blob/master/vendor/assets/javascripts/jsbus.js) into your project.
+
+### Rails Asset Pipeline
+
+This project is designed as a gem to work with the Rails asset pipeline.
 
 ```
 $ gem install jsbus
 ```
 
-In application.js, Add the following line.
+Or add to your `Gemfile`. Run bundler, and you should be ready to go.
+
+```
+gem 'jsbus', '~> 0.1.2'
+```
+
+In `application.js`, add the following line, and everything should work as expected.
 
 ```
 //= require jsbus
@@ -49,7 +65,7 @@ You can publish multiple events simultaneously by sending an array of events.
 eventBus.publish(["my.event-one", "my.event-two"]);
 ```
 
-You can send data with a publish. You can get to the data by receiving the event in your callback.
+You can send data with a publish. You can get to the data by receiving the event in your callback. The data will be stored in `event.data`.
 
 ```javascript
 eventBus.subscribe("my.event", function(event) {
@@ -58,16 +74,16 @@ eventBus.subscribe("my.event", function(event) {
 eventBus.publish("my.event", { x: 1, y: 3, z: [2, 4, 6] });
 ```
 
-Publishing an event can also have a callback.
+Publishing an event can also have a callback. The publisher callback will be invoked after each subscribers.
 
 ```javascript
 eventBus.publish("my.event", function() {
   alert("I'm back!");
 });
 ```
+In the example below, if `my.event` has three subscribers, you can expect three alert popups.
 
-You can even do basic request/response style programming with JsBus. To do this,
-your subscriber should have a `return` statement.
+You can even do basic request/response style programming with JsBus. To do this, your subscriber should have a `return` statement. Whatever is returned from the subscriber will be passed into the publisher's callback.
 
 ```javascript
 eventBus.subscribe("my.event", function (event) {
