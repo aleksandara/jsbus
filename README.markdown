@@ -32,6 +32,14 @@ In `application.js`, add the following line, and everything should work as expec
 
 ## Usage
 
+JsBus will add one item to your global namespace: `window.eventBus`. Everything else is hidden away. The basic operations are
+
+```javascript
+eventBus.subscribe(eventType, callback);    // Subscribe the callback to the event type.
+eventBus.publish(eventType, data);          // Publish an event with a type (optionally with data).
+eventBus.unsubscribe(eventType);            // Unsubscribe all subscribers with the event type.
+```
+
 ### Subscribing to events
 
 Subscribing to events is a simple callback pattern. Simply give the event type and what to do
