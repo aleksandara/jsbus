@@ -11,7 +11,7 @@
     }
 
     EventBus.prototype.createEvent = function(eventType, data, callback) {
-      return new Event(this, eventType, data, callback);
+      return new Event(eventType, data, callback);
     };
 
     EventBus.prototype.publish = function(eventType, data, callback) {
@@ -63,8 +63,7 @@
 
   Event = (function() {
 
-    function Event(eventBus, eventType, data, callback) {
-      this.eventBus = eventBus;
+    function Event(eventType, data, callback) {
       this.eventType = eventType;
       this.data = data != null ? data : {};
       this.callback = callback;

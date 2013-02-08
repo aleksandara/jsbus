@@ -10,7 +10,7 @@ class EventBus
 
   # Create a new event
   createEvent: (eventType, data, callback) ->
-    new Event(this, eventType, data, callback);
+    new Event(eventType, data, callback);
 
   # Publish a new event
   #   eventType: a single event or array of events
@@ -51,8 +51,7 @@ class EventBus
 
 #
 class Event
-  constructor: (eventBus, eventType, data, callback) ->
-    this.eventBus = eventBus
+  constructor: (eventType, data, callback) ->
     this.eventType = eventType
     this.data = data ? { }
     this.callback = callback
