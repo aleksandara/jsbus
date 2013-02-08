@@ -3,4 +3,5 @@ node_js:
   - 0.8
   - 0.9
 install: npm install
+before_script: coffee -c -o lib src
 script: npm test
