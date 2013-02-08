@@ -1,27 +1,29 @@
+# JsBus 0.1.3
+
+[![Build Status](https://secure.travis-ci.org/jarrettmeyer/jsbus.png)](http://travis-ci.org/jarrettmeyer/jsbus)
+
 ## Why Write a JavaScript Message Broker?
 
 Because.
-
-I have a project where jQuery's observer pattern wasn't going to work for me. I needed something where publishers and subscribers could be completely independent, and possibly not even loaded on the page at the same time.
 
 ## Installing
 
 ### Copy/Paste
 
-The easiest way to use JsBus is to simply copy [jsbus.js](https://github.com/jarrettmeyer/jsbus/blob/master/vendor/assets/javascripts/jsbus.js) into your project.
+The easiest way to use JsBus is to copy [jsbus.js](https://github.com/jarrettmeyer/jsbus/blob/master/vendor/assets/javascripts/jsbus.js) into your project.
 
 ### Rails Asset Pipeline
 
-This project is designed as a gem to work with the Rails asset pipeline.
+JsBus is designed as a gem to work with the Rails asset pipeline. Install the gem and you're ready to go.
 
 ```
 $ gem install jsbus
 ```
 
-Or add to your `Gemfile`. Run bundler, and you should be ready to go.
+Add to your `Gemfile`. Run bundler, and you should be ready to go.
 
 ```
-gem 'jsbus', '~> 0.1.2'
+gem 'jsbus', '~> 0.1.3'
 ```
 
 In `application.js`, add the following line, and everything should work as expected.
@@ -130,3 +132,10 @@ $ git clone git@github.com:jarrettmeyer/jsbus.git
 $ bundle install
 $ rake test
 ```
+
+## Authors
+
+**Jarrett Meyer**
+
++ [http://twitter.com/jarrettmeyer](@jarrettmeyer)
++ [http://jarrettmeyer.com](jarrettmeyer.com)
