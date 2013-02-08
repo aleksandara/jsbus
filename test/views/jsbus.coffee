@@ -6,7 +6,7 @@ class EventBus
 
   # Initialize a new event bus with an empty collection of subscribers.
   constructor: () ->
-    this.subscribers = []
+    this.subscribers = { }
 
   # Create a new event
   createEvent: (eventType, data, callback) ->
@@ -27,7 +27,7 @@ class EventBus
 
   # Reset the event bus. Used in testing. Probably shouldn't be used in production.
   reset: () ->
-    this.subscribers = []
+    this.subscribers = { }
 
   # Subscribe the given callback to the given event type.
   subscribe: (eventType, callback) ->
@@ -39,15 +39,9 @@ class EventBus
   unsubscribe: (eventType) ->
     eventTypes = [].concat(eventType)
     for eventType in eventTypes
-      tmpSubscribers = []
-      for subscriber in this.subscribers
-        # If the subscriber event type should not be removed, then keep it in a temporary list. Otherwise,
-        # publish an event notifying of removal.
-        if subscriber.eventType != eventType
-          tmpSubscribers.push(subscriber)
-        else
-          this.publish("EventBus.unsubscribed", { subscriber: subscriber })
-      this.subscribers = tmpSubscribers
+      for subscriber in this.subscribers[eventType]
+        this.publish("EventBus.unsubscribed", { subscriber: subscriber })
+      this.subscribers[eventType] = []
 
 #
 class Event
@@ -83,7 +77,8 @@ isFunction = (obj) ->
 
 # Push the given event to all subscribers with a matching event type.
 pushEventToSubscribers = (eventBus, event) ->
-  for subscriber in eventBus.subscribers when subscriber.eventType == event.eventType
+  subscribers = eventBus.subscribers[event.eventType] ? []
+  for subscriber in subscribers
     event.push(subscriber)
 
 # Subscribe to the given event types
@@ -93,7 +88,8 @@ pushEventToSubscribers = (eventBus, event) ->
 subscribeToEventType = (eventBus, eventTypes, callback) ->
   for eventType in eventTypes
     subscriber = new Subscriber(eventType, callback)
-    eventBus.subscribers.push(subscriber)
+    eventBus.subscribers[eventType] = eventBus.subscribers[eventType] ? []
+    eventBus.subscribers[eventType].push(subscriber)
     eventBus.publish("EventBus.subscribed", { subscriber: subscriber })
 
 # Create a new EventBus. Prevent eventBus from being defined twice on root.

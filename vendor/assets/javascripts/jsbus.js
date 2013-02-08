@@ -7,7 +7,7 @@
   EventBus = (function() {
 
     function EventBus() {
-      this.subscribers = [];
+      this.subscribers = {};
     }
 
     EventBus.prototype.createEvent = function(eventType, data, callback) {
@@ -25,7 +25,7 @@
     };
 
     EventBus.prototype.reset = function() {
-      return this.subscribers = [];
+      return this.subscribers = {};
     };
 
     EventBus.prototype.subscribe = function(eventType, callback) {
@@ -35,24 +35,19 @@
     };
 
     EventBus.prototype.unsubscribe = function(eventType) {
-      var eventTypes, subscriber, tmpSubscribers, _i, _j, _len, _len1, _ref, _results;
+      var eventTypes, subscriber, _i, _j, _len, _len1, _ref, _results;
       eventTypes = [].concat(eventType);
       _results = [];
       for (_i = 0, _len = eventTypes.length; _i < _len; _i++) {
         eventType = eventTypes[_i];
-        tmpSubscribers = [];
-        _ref = this.subscribers;
+        _ref = this.subscribers[eventType];
         for (_j = 0, _len1 = _ref.length; _j < _len1; _j++) {
           subscriber = _ref[_j];
-          if (subscriber.eventType !== eventType) {
-            tmpSubscribers.push(subscriber);
-          } else {
-            this.publish("EventBus.unsubscribed", {
-              subscriber: subscriber
-            });
-          }
+          this.publish("EventBus.unsubscribed", {
+            subscriber: subscriber
+          });
         }
-        _results.push(this.subscribers = tmpSubscribers);
+        _results.push(this.subscribers[eventType] = []);
       }
       return _results;
     };
@@ -109,25 +104,24 @@
   };
 
   pushEventToSubscribers = function(eventBus, event) {
-    var subscriber, _i, _len, _ref, _results;
-    _ref = eventBus.subscribers;
+    var subscriber, subscribers, _i, _len, _ref, _results;
+    subscribers = (_ref = eventBus.subscribers[event.eventType]) != null ? _ref : [];
     _results = [];
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      subscriber = _ref[_i];
-      if (subscriber.eventType === event.eventType) {
-        _results.push(event.push(subscriber));
-      }
+    for (_i = 0, _len = subscribers.length; _i < _len; _i++) {
+      subscriber = subscribers[_i];
+      _results.push(event.push(subscriber));
     }
     return _results;
   };
 
   subscribeToEventType = function(eventBus, eventTypes, callback) {
-    var eventType, subscriber, _i, _len, _results;
+    var eventType, subscriber, _i, _len, _ref, _results;
     _results = [];
     for (_i = 0, _len = eventTypes.length; _i < _len; _i++) {
       eventType = eventTypes[_i];
       subscriber = new Subscriber(eventType, callback);
-      eventBus.subscribers.push(subscriber);
+      eventBus.subscribers[eventType] = (_ref = eventBus.subscribers[eventType]) != null ? _ref : [];
+      eventBus.subscribers[eventType].push(subscriber);
       _results.push(eventBus.publish("EventBus.subscribed", {
         subscriber: subscriber
       }));

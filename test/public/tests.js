@@ -15,9 +15,8 @@ test("Adds an eventBus object to the top window object", function (){
   ok(window.eventBus !== undefined, "the eventBus is defined");
 });
 
-test("Number of default subscribers should be 0", function() {
-  var count = eventBus.subscribers.length;
-	equal(0, count);
+test("Number of default subscribers should be undefined", function() {
+  ok(eventBus.subscribers["my.event"] === undefined);
 });
 
 module("subscribing to an event", {
@@ -33,7 +32,7 @@ test("Can subscribe to an event", function() {
 
 test("Subscribing to an event should add a subscriber to the array", function() {
   eventBus.subscribe("my.event", function() { });
-  var numSubscribers = eventBus.subscribers.length;
+  var numSubscribers = eventBus.subscribers["my.event"].length;
   equal(1, numSubscribers);
 });
 
@@ -47,7 +46,7 @@ test("subscribing should publish a subscription notification", function () {
 
 test("unsubscribing should publish an unsubscription notification", function () {
   var unsubscribed = false;
-  eventBus.subscribe("EventBus.unsubscribed", function (){
+  eventBus.subscribe("EventBus.unsubscribed", function () {
     unsubscribed = true;
   });
   eventBus.subscribe("some-event", function() { });
@@ -277,7 +276,9 @@ module("Testing Unsubscribe Feature", {
 });
 
 test("has 3 subscribers by default", function () {
-  var count = eventBus.subscribers.length;
+  var count = eventBus.subscribers["event.one"].length +
+              eventBus.subscribers["event.two"].length +
+              eventBus.subscribers["event.three"].length;
   equal(3, count);
 });
 
@@ -288,13 +289,17 @@ test("can unsubscribe an event", function () {
 
 test("has expected number of subscribers after unsubscribing", function () {
   eventBus.unsubscribe("event.two");
-  var count = eventBus.subscribers.length;
+  var count = eventBus.subscribers["event.one"].length +
+              eventBus.subscribers["event.two"].length +
+              eventBus.subscribers["event.three"].length;
   equal(2, count);
 });
 
 test("can unsubscribe from multiple events", function() {
   eventBus.unsubscribe(["event.one", "event.two"]);
-  var count = eventBus.subscribers.length;
+  var count = eventBus.subscribers["event.one"].length +
+              eventBus.subscribers["event.two"].length +
+              eventBus.subscribers["event.three"].length;
   equal(1, count);
 });
 
