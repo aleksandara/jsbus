@@ -7,7 +7,7 @@
   },
   "devDependencies": {
     "coffee-script": "latest",
-    "nodeunit": "0.7.x"
+    "nodeunit": "latest"
   }
 }
 
