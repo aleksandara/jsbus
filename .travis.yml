@@ -3,5 +3,7 @@ node_js:
   - 0.8
   - 0.9
 install: npm install
-before_script: coffee -c -o lib src
+before_script: 
+  - coffee -c ./src/jsbus.coffee
+  - coffee -c ./test/test.coffee
 script: npm test

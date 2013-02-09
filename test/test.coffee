@@ -1,4 +1,4 @@
-exports.jsbus = require("../src/jsbus.coffee")
+exports.jsbus = require("../src/jsbus.js")
 eventBus = exports.jsbus.eventBus
 
 exports.addingASubscriberAddsToTheArray = (test) ->

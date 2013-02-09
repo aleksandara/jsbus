@@ -3,7 +3,7 @@
   "name": "jsbus",
   "version": "0.1.3",
   "scripts": {
-    "test": "nodeunit ./test/test.coffee"
+    "test": "nodeunit ./test/test.js"
   },
   "devDependencies": {
     "coffee-script": "latest",

@@ -4,4 +4,6 @@ node_modules/
 *.gem
 *.iml
 
+src/jsbus.js
+test/test.js
 Gemfile.lock
