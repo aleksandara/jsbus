@@ -1,7 +1,5 @@
 # JsBus 0.1.3
 
-[![Build Status](https://secure.travis-ci.org/jarrettmeyer/jsbus.png)](http://travis-ci.org/jarrettmeyer/jsbus)
-
 ## Why Write a JavaScript Message Broker?
 
 Because.
