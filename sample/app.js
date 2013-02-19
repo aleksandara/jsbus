@@ -1,4 +1,3 @@
-
 /*global __dirname console process require*/
 
 var app, express, http, home, path;
