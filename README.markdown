@@ -122,14 +122,16 @@ eventBus.unsubscribe(['my.event.one', 'my.event.two']);
 
 ## Testing
 
-A Sinatra test application is provided in the repository. Unit testing is done with [QUnit]
+A [Node Express](http://expressjs.com/) test application is provided in the repository. Unit testing is done with [QUnit]
 (http://qunitjs.com). You can see a sample usage by browsing to `/sample`.
 
 ```
 $ git clone git@github.com:jarrettmeyer/jsbus.git
-$ bundle install
-$ rake test
+$ cd jsbus
+$ node ./sample/app
 ```
+
+The QUnit tests are at [/qunit](http://localhost:3000/qunit). A sample page is located at [/sample](http://localhost:3000/sample). 
 
 ## Authors
 
