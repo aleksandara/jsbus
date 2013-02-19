@@ -5,5 +5,5 @@ node_modules/
 *.iml
 
 src/jsbus.js
-test/test.js
+sample/public/javascripts/jsbus.js
 Gemfile.lock

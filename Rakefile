@@ -20,11 +20,14 @@ namespace :test do
 end
 
 task :compile do
-  # Copy the coffee file so it is available to the test program
-  system "cp ./src/jsbus.coffee ./sample/views/jsbus.coffee"
+  # Coffee compile the source
+  system "coffee -c ./src/jsbus.coffee"
 
-  # Compile the coffee file, putting in the appropriate vendor folder
-  system "coffee -c -o ./vendor/assets/javascripts/ ./src/jsbus.coffee"
+  # Copy the js file to the sample application
+  system "cp ./src/jsbus.js ./sample/public/javascripts/jsbus.js"
+
+  # Copy the js file to the gem vendor folder
+  system "cp ./src/jsbus.js ./vendor/assets/javascripts/"
 end
 
 task :build_gem do
